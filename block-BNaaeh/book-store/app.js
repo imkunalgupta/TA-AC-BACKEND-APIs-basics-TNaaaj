@@ -8,6 +8,19 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var v1Router = require('./routes/users');
 
+var bookRouter = require('./routes/book');
+var commentRouter = require('./routes/comment');
+
+//connect to mongo
+
+mongoose.connect(
+  'mongodb://localhost/book-store',
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  (err) => {
+    console.log(err ? err : 'Connected true');
+  }
+);
+
 var app = express();
 
 // view engine setup
@@ -22,7 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', indexRouter);
 app.use('/api/v1/users', v1Router);
-app.use('/api/v2/users', v2Router);
+app.use('/api/book', bookRouter);
+app.use('/api/comment', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
